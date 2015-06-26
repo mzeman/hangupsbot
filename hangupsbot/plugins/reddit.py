@@ -15,7 +15,6 @@ def _initialise(Handlers, bot=None):
     Handlers.register_user_command(["reddit"])
     return []
 
-
 def reddit(bot, event, *args):
     """ This plugin pulls a random post from rising and hot posts on reddit if
     rising didnt have enough interesting submissions. Usage: /bot reddit sub"""
@@ -43,7 +42,6 @@ def reddit(bot, event, *args):
                 continue
             link_title.append(submission.title)
             link_url.append(submission.url)
-        print(len(list_hot))
         # If there's not enough submissions in rising pull from top
         if len(list_hot) < 5:
             submissions = r.get_subreddit(target_sub).get_hot(limit=50)
@@ -79,6 +77,7 @@ def reddit(bot, event, *args):
                 except Exception as e:
                      bot.send_message_parsed(event.conv,link_image)
                      bot.send_html_to_conversation(event.conv_id, "<i>PS: uploading is broken. set upload_images to False or fix uploading.</i>")
+                     print("{}".format(e))
             else:
                 bot.send_message_parsed(event.conv,link_image) 
     except Exception as e:
