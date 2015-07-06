@@ -6,6 +6,7 @@ import asyncio
 import aiohttp
 import hangups
 import urllib.request
+import urllib
 
 _externals = { "running": False }
 
@@ -38,7 +39,12 @@ def meme(bot, event, *args):
         parameters = list(args)
         if len(parameters) == 0:
             parameters.append("robot")
-
+        else:
+            urlparameters = []
+            for param in parameters:
+                urlparameters.append(urllib.parse.quote_plus(param))
+            parameters = urlparameters
+        
         links = yield from _retrieve("http://memegenerator.net/memes/search?q=" + "+".join(parameters), ".item_medium_small > a", "href")
         links = yield from _retrieve("http://memegenerator.net" + random.choice(links), ".item_medium_small > a", "href")
 
